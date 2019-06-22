@@ -1,0 +1,29 @@
+{
+  "name": "tba.js",
+  "version": "0.2.0",
+  "description": "Promise-based API wrapper for The Blue Alliance.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cringiest/tba.js.git"
+  },
+  "keywords": [
+    "tba",
+    "blue",
+    "alliance",
+    "frc",
+    "api"
+  ],
+  "author": "Aiden Bai <aidenybai@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cringiest/tba.js/issues"
+  },
+  "homepage": "https://github.com/cringiest/tba.js#readme",
+  "dependencies": {
+    "node-fetch": "^2.6.0"
+  }
+}
