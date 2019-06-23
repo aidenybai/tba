@@ -1,0 +1,7 @@
+LICENSE
+yarn.lock
+node_modules/
+.prettierrc
+test.js
+docs/
+jsdoc.json
