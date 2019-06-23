@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Client.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Client.html">Client</a><ul class='methods'><li data-type='method'><a href="Client.html#_get">_get</a></li><li data-type='method'><a href="Client.html#getEvent">getEvent</a></li><li data-type='method'><a href="Client.html#getEventsForTeam">getEventsForTeam</a></li><li data-type='method'><a href="Client.html#getEventStreamLink">getEventStreamLink</a></li><li data-type='method'><a href="Client.html#getMatch">getMatch</a></li><li data-type='method'><a href="Client.html#getMatchesAtEvent">getMatchesAtEvent</a></li><li data-type='method'><a href="Client.html#getStatus">getStatus</a></li><li data-type='method'><a href="Client.html#getTeam">getTeam</a></li><li data-type='method'><a href="Client.html#getTeamAwards">getTeamAwards</a></li><li data-type='method'><a href="Client.html#getTeamsAtEvent">getTeamsAtEvent</a></li><li data-type='method'><a href="Client.html#getTeamsInMatch">getTeamsInMatch</a></li><li data-type='method'><a href="Client.html#isMatchDone">isMatchDone</a></li></ul></li><li></li><li><a href="Request.html">Request</a><ul class='methods'><li data-type='method'><a href="Request.html#_get">_get</a></li></ul></li><li></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Client.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const Request = require('./rest/Request.js');
+
+/**
+ * Main class
+ *
+ * @class Client
+ * @extends {Request}
+ */
+class Client extends Request {
+	/**
+	 * Creates an instance of Client.
+	 * @param {*} [options={}]
+	 */
+	constructor(options = {}) {
+		super(options);
+	}
+
+	/**
+	 * Returns API status, and TBA status information.
+	 *
+	 * @returns {Promise}
+	 */
+	getStatus() {
+		return this._get('/status');
+	}
+
+	/**
+	 * Gets a Team object for the team referenced by the given key.
+	 *
+	 * @param {*} teamKey
+	 * @returns {Promise}
+	 */
+	getTeam(teamKey) {
+		return this._get(`/team/frc${teamKey}`);
+	}
+
+	/**
+	 * Gets an Event.
+	 *
+	 * @param {*} eventCode
+	 * @param {*} year
+	 * @returns {Promise}
+	 */
+	getEvent(eventCode, year) {
+		const eventKey = year + eventCode.toString().toLowerCase();
+		return this._get(`/event/${eventKey}`);
+	}
+
+	/**
+	 * Gets a Match object for the given match key.
+	 *
+	 * @param {*} event
+	 * @param {*} compLevel
+	 * @param {*} matchNum
+	 * @param {string} [semiNum='']
+	 * @returns {Promise}
+	 */
+	getMatch(event, compLevel, matchNum, semiNum = '') {
+		const matchKey = `${event.year + event.event_code}_${compLevel + semiNum}m${matchNum}`;
+		return this._get(`/match/${matchKey}`);
+	}
+
+	/**
+	 * Gets a list of awards the given team has won.
+	 *
+	 * @param {*} team
+	 * @returns {Promise}
+	 */
+	getTeamAwards(team) {
+		const { key } = team;
+		return this._get(`/team/${key}/awards`);
+	}
+
+	/**
+	 * Gets a list of all events this team has competed at.
+	 *
+	 * @param {*} team
+	 * @returns {Promise}
+	 */
+	getEventsForTeam(team) {
+		const { key } = team;
+		return this._get(`/team/${key}/events`);
+	}
+
+	/**
+	 * Gets a list of Team objects that competed in the given event. 
+	 *
+	 * @param {*} event
+	 * @returns {Promise}
+	 */
+	getTeamsAtEvent(event) {
+		const { key } = event;
+		return this._get(`/event/${key}/teams`);
+	}
+
+	/**
+	 * Gets a list of matches for the given event.
+	 *
+	 * @param {*} event
+	 * @returns {Promise}
+	 */
+	getMatchesAtEvent(event) {
+		const { key } = event;
+		return this._get(`/event/${key}/matches`);
+	}
+
+	/**
+	 * Gets stream channel for the given team.
+	 *
+	 * @param {*} event
+	 * @returns {String}
+	 */
+	getEventStreamLink(event) {
+		if (event.webcasts.length) {
+			const { type, channel } = event.webcasts[event.webcasts.length - 1];
+			switch (type) {
+				case 'ustream':
+					return `https://www.ustream.tv/channel/${channel}`;
+				case 'twitch':
+					return `https://twitch.tv/${channel}`;
+				default:
+					return 'None';
+			}
+		} 
+		else {
+			return 'None';
+		}
+	}
+
+	/**
+	 * Gets a list of team for the given match.
+	 *
+	 * @param {*} match
+	 * @returns {Object}
+	 */
+	getTeamsInMatch(match) {
+		const { red, blue } = match.alliances;
+		const blueTeamLength = blue.team_keys.length;
+		let teams = [];
+
+		teams.push(blue.team_keys);
+		teams.push.apply(blue.team_keys, red.team_keys);
+		teams = teams[0];
+
+		for (let i = 0; i &lt; teams.length; i++) {
+			this.getTeam(teams[i].substring(3)).then((teamInfo) => {
+				teams[i] = JSON.stringify(teamInfo);
+			});
+		}
+
+		const redTeam = teams.slice(blueTeamLength);
+		const blueTeam = teams.slice(0, blueTeamLength);
+		const data = {
+			blue: [ blueTeam ],
+			red: [ redTeam ]
+		};
+		return JSON.parse(data);
+	}
+
+	/**
+	 * Determines if match is finished.
+	 *
+	 * @param {*} match
+	 * @returns {Boolean}
+	 */
+	isMatchDone(match) {
+		if (match.actual_time &lt; new Date().getTime()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+	(c) present Aiden Bai
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>
