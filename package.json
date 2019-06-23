@@ -1,9 +1,10 @@
 {
-  "name": "tba.js",
+  "name": "@abai/tba",
   "version": "0.0.1",
   "description": "Promise-based API wrapper for The Blue Alliance.",
   "main": "index.js",
   "scripts": {
+    "publish": "npm publish",
     "generate-docs": "node_modules/.bin/jsdoc -c jsdoc.json",
     "clean": "prettier --write \"./**/*.{js,jsx,json}\""
   },
