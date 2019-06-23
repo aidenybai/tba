@@ -1,9 +1,10 @@
 {
   "name": "tba.js",
-  "version": "0.2.0",
+  "version": "0.0.1",
   "description": "Promise-based API wrapper for The Blue Alliance.",
   "main": "index.js",
   "scripts": {
+    "generate-docs": "node_modules/.bin/jsdoc -c jsdoc.json",
     "clean": "prettier --write \"./**/*.{js,jsx,json}\""
   },
   "repository": {
@@ -25,5 +26,8 @@
   "homepage": "https://github.com/cringiest/tba#readme",
   "dependencies": {
     "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {
+    "docdash": "^1.1.1"
   }
 }
