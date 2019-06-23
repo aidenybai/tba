@@ -9,6 +9,6 @@ yarn add @abai/tba
 ```
 
 ## Documentation
-Visit this website: https://
+Visit this website: https://cringiest.github.io/tba
 
-## Methods
+*(c) 2019-present Aiden Bai*

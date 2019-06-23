@@ -16,7 +16,8 @@
     "blue",
     "alliance",
     "frc",
-    "api"
+    "api",
+    "v3"
   ],
   "author": "Aiden Bai <aidenybai@gmail.com>",
   "license": "MIT",
