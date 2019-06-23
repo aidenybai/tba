@@ -1,6 +1,14 @@
 const fetch = require('node-fetch');
-
+/**
+ * Request Class
+ *
+ * @class Request
+ */
 module.exports = class Request {
+	/**
+	 * Creates an instance of Request.
+	 * @param {*} options
+	 */
 	constructor(options) {
 		this.options = options;
 		this.baseURL = 'https://www.thebluealliance.com/api/v3';
@@ -10,6 +18,12 @@ module.exports = class Request {
 		};
 	}
 
+	/**
+	 * Promisified request method.
+	 *
+	 * @param {*} endpoint
+	 * @returns {Promise}
+	 */
 	_get(endpoint) {
 		return new Promise((resolve, reject) => {
 			fetch(this.baseURL + endpoint, this.requestConfig)
